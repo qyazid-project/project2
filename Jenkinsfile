@@ -22,8 +22,8 @@ pipeline {
 
         stage('Unit Test') {
             steps {
-                echo 'Running JUnit tests'
-                bat 'mvn test'
+                echo 'Running JUnit tests and generating JaCoCo coverage'
+        		bat 'mvn clean verify'
             }
         }
 
@@ -35,7 +35,8 @@ pipeline {
                     bat '''
                         mvn org.sonarsource.scanner.maven:sonar-maven-plugin:sonar ^
                         -Dsonar.projectKey=project2 ^
-                        -Dsonar.projectName=project2
+                        -Dsonar.projectName=project2 ^
+                        -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml
                     '''
                 }
             }
