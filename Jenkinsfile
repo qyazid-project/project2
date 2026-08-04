@@ -33,7 +33,7 @@ pipeline {
 
                 withSonarQubeEnv('SonarQube') {
                     bat '''
-                        mvn sonar:sonar ^
+                        mvn org.sonarsource.scanner.maven:sonar-maven-plugin:sonar ^
                         -Dsonar.projectKey=project2 ^
                         -Dsonar.projectName=project2
                     '''
