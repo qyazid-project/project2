@@ -27,6 +27,20 @@ pipeline {
             }
         }
 
+        stage('SonarQube Analysis') {
+            steps {
+                echo 'Running SonarQube static code analysis'
+
+                withSonarQubeEnv('SonarQube') {
+                    bat '''
+                        mvn sonar:sonar ^
+                        -Dsonar.projectKey=project2 ^
+                        -Dsonar.projectName=project2
+                    '''
+                }
+            }
+        }
+
         stage('Package') {
             steps {
                 echo 'Packaging application'
@@ -37,7 +51,8 @@ pipeline {
 
     post {
         always {
-            junit 'target/surefire-reports/*.xml'
+            junit allowEmptyResults: true,
+                  testResults: 'target/surefire-reports/*.xml'
         }
 
         success {
